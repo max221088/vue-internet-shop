@@ -40,7 +40,7 @@ const DB = getFirestore(app);
 //   return getDoc(doc(DB, deskID, colID));
 // }
 
-function getNotesFromDB (colID) {
+function getDataFromDB (colID) {
   return getDocs(collection(DB, colID))
 }
 
@@ -48,23 +48,68 @@ function getNotesFromDB (colID) {
 export default new Vuex.Store({
   state: {
     productsDB: [],
+    productsForSearch: [],
+    categoriesDB: [],
+    Query: '',
+    SelectedCategory: []
   },
   getters: {
-    getProductsFromDB (state) {
+    getProductsForRender (state) {
       return state.productsDB;
+    },
+    getProductsForSearch (state) {
+      return state.productsForSearch;
+    },
+    getCategoriesFromDB (state) {
+      return state.categoriesDB;
+    },
+    getQuery(state) {
+      return state.Query;
+    },
+    getSelectedCategory(state) {
+      return state.SelectedCategory;
     },
   },
   mutations: {
+    filteredProducts (state, filtProd) {
+      state.productsDB = filtProd;
+    },
+    Query (state, Query) {
+      state.Query = Query;
+    },
+    SelectedCategory (state, SelectedCategory) {
+      state.SelectedCategory = SelectedCategory;
+    }
   },
   actions: {
     fetchProducts(context) {
-      getNotesFromDB('Products')
+      getDataFromDB('Products')
         .then(data => {
           context.state.productsDB = [];
           data.forEach(list => {
             context.state.productsDB.push(list.data());
         });
-        console.log(context.state.productsDB)
+        //console.log(context.state.productsDB)
+      })
+    },
+    fetchProductsForSearch(context) {
+      getDataFromDB('Products')
+        .then(data => {
+          context.state.productsForSearch = [];
+          data.forEach(list => {
+            context.state.productsForSearch.push(list.data());
+        });
+        //console.log(context.state.productsForSearch)
+      })
+    },
+    fetchCategories(context) {
+      getDataFromDB('Сategories')
+        .then(data => {
+          context.state.categoriesDB = [];
+          data.forEach(list => {
+            context.state.categoriesDB.push(list.data());
+        });
+       // console.log(context.state.categoriesDB)
       })
     },
   },

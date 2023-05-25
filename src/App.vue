@@ -1,32 +1,71 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
+    <FilterBox @filtByQuery="filteredProducts"/>
+    <CategoryBar @filtByCategory="filteredProducts"/>
     <router-view/>
   </div>
 </template>
 
-<style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import FilterBox from './components/FilterBox.vue'
+import CategoryBar from './components/CategoryBar.vue'
 
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+export default {
+  components: {
+    FilterBox,
+    CategoryBar,
+  },
+  data: function () {
+    return {
+      //productsOnPage: 1,
     }
-  }
+  },
+  methods: {
+    filteredProducts() {
+      let products = [];
+      //let paginatedProducts = [[]];
+      //let index = 0;
+      products = (this.selectedCategory.length || this.query)
+      ? this.productsForSearch.filter(product => {
+        return ((this.selectedCategory.length) 
+        ? product.category.some(category =>{
+          return (this.selectedCategory.indexOf(category) != (-1))
+        }) : true)
+        // ~this.selectedCategory.indexOf(product.category.toString()) : true)
+         && ~product.title.toLowerCase().indexOf(this.query.toLowerCase());
+      })
+      : this.productsForSearch
+      // for (let i = 0; i < products.length; i++) {
+      //   if (i % this.productsOnPage == 0 && i != 0) {
+      //     index ++;
+      //     paginatedProducts[index] = []
+      //   }
+      //   paginatedProducts[index].push(products[i]);
+      // }
+      //return paginatedProducts;
+      //console.log(paginatedProducts)
+      this.$store.commit('filteredProducts', products);
+      
+    },
+  },
+  computed: {
+      query () {
+          return this.$store.getters['getQuery'];
+      },
+      selectedCategory () {
+          return this.$store.getters['getSelectedCategory'];
+      },
+      productsForSearch () {
+          return this.$store.getters['getProductsForSearch'];
+      },
+    },
+    created: function () {
+        this.$store.dispatch('fetchProductsForSearch');
+    }
 }
+
+</script>
+
+<style lang="less">
+@import './assets/less/style.less';
 </style>

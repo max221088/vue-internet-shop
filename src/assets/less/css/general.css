@@ -1,0 +1,13 @@
+#app .product-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: absolute;
+  top: 56px;
+  left: 300px;
+  right: 0px;
+}
+#app .product-container .card {
+  margin-right: 15px;
+}

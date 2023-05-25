@@ -1,0 +1,21 @@
+.cat-bar {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  width: 300px;
+  padding-top: 20px;
+  padding-left: 10px;
+  z-index: 98;
+}
+.cat-bar .title {
+  font-size: 20px;
+}
+.cat-bar .form-check {
+  user-select: none;
+}
+.cat-bar .form-check .form-check-label {
+  cursor: pointer;
+}
+.cat-bar .form-check .form-check-input {
+  cursor: pointer;
+}
