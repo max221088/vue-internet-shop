@@ -1,6 +1,6 @@
 <template>
   <div class="product-container">
-    <ProductCard v-for="(product , index) in Products" :product="product" :key="index"/>
+    <ProductCard v-for="product in Products[CurrentPage]" :product="product" :key="product.id"/>
   </div>
   
 </template>
@@ -14,16 +14,22 @@ export default {
   name: 'HomeView',
   components: {
     ProductCard,
+  },
+  data: function () {
+    return {
 
+    }
   },
   computed: {
     Products () {
-          return this.$store.getters['getProductsForRender'];
+      return this.$store.getters['getProductsForRender'];
       },
+    CurrentPage () {
+      return this.$store.getters['getCurrentPage'];
+    },
   },
   created: function () {
     this.$store.dispatch('fetchProducts');
-    
   }
 }
 </script>

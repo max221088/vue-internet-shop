@@ -51,7 +51,9 @@ export default new Vuex.Store({
     productsForSearch: [],
     categoriesDB: [],
     Query: '',
-    SelectedCategory: []
+    SelectedCategory: [],
+    CurrentPage: 0,
+    ProductsOnPage: 1
   },
   getters: {
     getProductsForRender (state) {
@@ -69,6 +71,12 @@ export default new Vuex.Store({
     getSelectedCategory(state) {
       return state.SelectedCategory;
     },
+    getCurrentPage(state) {
+      return state.CurrentPage;
+    },
+    getProductsOnPage(state) {
+      return state.ProductsOnPage;
+    },
   },
   mutations: {
     filteredProducts (state, filtProd) {
@@ -79,16 +87,31 @@ export default new Vuex.Store({
     },
     SelectedCategory (state, SelectedCategory) {
       state.SelectedCategory = SelectedCategory;
+    },
+    CurrentPage (state, CurrentPage) {
+      state.CurrentPage = CurrentPage;
     }
   },
   actions: {
     fetchProducts(context) {
+      let products = [];
+      let paginatedProducts = [[]];
+      let index = 0;
       getDataFromDB('Products')
         .then(data => {
-          context.state.productsDB = [];
+          //context.state.productsDB = [];
           data.forEach(list => {
-            context.state.productsDB.push(list.data());
+            //context.state.productsDB.push(list.data());
+            products.push(list.data());
         });
+        for (let i = 0; i < products.length; i++) {
+          if (i % context.state.ProductsOnPage == 0 && i != 0) {
+            index ++;
+            paginatedProducts[index] = []
+          }
+          paginatedProducts[index].push(products[i]);
+        }
+        context.state.productsDB = paginatedProducts;
         //console.log(context.state.productsDB)
       })
     },

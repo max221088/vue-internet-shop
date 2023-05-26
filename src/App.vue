@@ -2,6 +2,7 @@
   <div id="app">
     <FilterBox @filtByQuery="filteredProducts"/>
     <CategoryBar @filtByCategory="filteredProducts"/>
+    <PaginationBar @renderPage="filteredProducts"/>
     <router-view/>
   </div>
 </template>
@@ -9,59 +10,64 @@
 <script>
 import FilterBox from './components/FilterBox.vue'
 import CategoryBar from './components/CategoryBar.vue'
+import PaginationBar from './components/PaginationBar.vue'
 
 export default {
   components: {
     FilterBox,
     CategoryBar,
+    PaginationBar,
   },
   data: function () {
     return {
-      //productsOnPage: 1,
+      
     }
   },
   methods: {
     filteredProducts() {
       let products = [];
-      //let paginatedProducts = [[]];
-      //let index = 0;
+      let paginatedProducts = [[]];
+      let index = 0;
       products = (this.selectedCategory.length || this.query)
       ? this.productsForSearch.filter(product => {
-        return ((this.selectedCategory.length) 
+          return ((this.selectedCategory.length) 
         ? product.category.some(category =>{
           return (this.selectedCategory.indexOf(category) != (-1))
-        }) : true)
-        // ~this.selectedCategory.indexOf(product.category.toString()) : true)
-         && ~product.title.toLowerCase().indexOf(this.query.toLowerCase());
+          }) : true)
+        && ~product.title.toLowerCase().indexOf(this.query.toLowerCase());
       })
       : this.productsForSearch
-      // for (let i = 0; i < products.length; i++) {
-      //   if (i % this.productsOnPage == 0 && i != 0) {
-      //     index ++;
-      //     paginatedProducts[index] = []
-      //   }
-      //   paginatedProducts[index].push(products[i]);
-      // }
-      //return paginatedProducts;
-      //console.log(paginatedProducts)
-      this.$store.commit('filteredProducts', products);
-      
+      for (let i = 0; i < products.length; i++) {
+        if (i % this.ProductsOnPage == 0 && i != 0) {
+          index ++;
+          paginatedProducts[index] = []
+        }
+        paginatedProducts[index].push(products[i]);
+      }
+      this.$store.commit('filteredProducts', paginatedProducts);
     },
   },
   computed: {
-      query () {
-          return this.$store.getters['getQuery'];
-      },
-      selectedCategory () {
-          return this.$store.getters['getSelectedCategory'];
-      },
-      productsForSearch () {
-          return this.$store.getters['getProductsForSearch'];
-      },
+    query () {
+        return this.$store.getters['getQuery'];
     },
-    created: function () {
-        this.$store.dispatch('fetchProductsForSearch');
-    }
+    selectedCategory () {
+        return this.$store.getters['getSelectedCategory'];
+    },
+    productsForSearch () {
+        return this.$store.getters['getProductsForSearch'];
+    },
+    CurrentPage () {
+      return this.$store.getters['getCurrentPage'];
+    },
+    ProductsOnPage () {
+      return this.$store.getters['getProductsOnPage'];
+    },
+  },
+  created: function () {
+    this.$store.dispatch('fetchProductsForSearch');
+    this.$store.commit('filteredProducts', this.productsForSearch);
+  }
 }
 
 </script>
