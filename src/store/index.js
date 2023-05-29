@@ -50,79 +50,45 @@ export default new Vuex.Store({
     productsDB: [],
     productsForSearch: [],
     categoriesDB: [],
-    Query: '',
-    SelectedCategory: [],
-    CurrentPage: 0,
-    ProductsOnPage: 1
+    ProductsOnPage: 1,
+
   },
   getters: {
-    getProductsForRender (state) {
-      return state.productsDB;
-    },
     getProductsForSearch (state) {
       return state.productsForSearch;
     },
     getCategoriesFromDB (state) {
       return state.categoriesDB;
     },
-    getQuery(state) {
-      return state.Query;
-    },
-    getSelectedCategory(state) {
-      return state.SelectedCategory;
-    },
-    getCurrentPage(state) {
-      return state.CurrentPage;
-    },
-    getProductsOnPage(state) {
-      return state.ProductsOnPage;
+    getProductsForRender (state) {
+       let index = 0;
+       let paginatedProducts = [[]];
+       for (let i = 0; i < state.productsDB.length; i++) {
+        if (i % state.ProductsOnPage == 0 && i != 0) {
+          index ++;
+          paginatedProducts[index] = []
+        }
+        paginatedProducts[index].push(state.productsDB[i]);
+      }
+      return paginatedProducts;
     },
   },
   mutations: {
-    filteredProducts (state, filtProd) {
-      state.productsDB = filtProd;
-    },
-    Query (state, Query) {
-      state.Query = Query;
-    },
-    SelectedCategory (state, SelectedCategory) {
-      state.SelectedCategory = SelectedCategory;
-    },
-    CurrentPage (state, CurrentPage) {
-      state.CurrentPage = CurrentPage;
+    ProductSearch (state, filteredProduct) {
+      state.productsDB = filteredProduct;
     }
+    
   },
   actions: {
     fetchProducts(context) {
       let products = [];
-      let paginatedProducts = [[]];
-      let index = 0;
       getDataFromDB('Products')
         .then(data => {
-          //context.state.productsDB = [];
           data.forEach(list => {
-            //context.state.productsDB.push(list.data());
             products.push(list.data());
         });
-        for (let i = 0; i < products.length; i++) {
-          if (i % context.state.ProductsOnPage == 0 && i != 0) {
-            index ++;
-            paginatedProducts[index] = []
-          }
-          paginatedProducts[index].push(products[i]);
-        }
-        context.state.productsDB = paginatedProducts;
-        //console.log(context.state.productsDB)
-      })
-    },
-    fetchProductsForSearch(context) {
-      getDataFromDB('Products')
-        .then(data => {
-          context.state.productsForSearch = [];
-          data.forEach(list => {
-            context.state.productsForSearch.push(list.data());
-        });
-        //console.log(context.state.productsForSearch)
+        context.state.productsForSearch = products;
+        context.state.productsDB = products;
       })
     },
     fetchCategories(context) {
@@ -132,7 +98,6 @@ export default new Vuex.Store({
           data.forEach(list => {
             context.state.categoriesDB.push(list.data());
         });
-       // console.log(context.state.categoriesDB)
       })
     },
   },

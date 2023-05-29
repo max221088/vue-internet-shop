@@ -14,6 +14,7 @@
 <script>
 export default {
     name: 'PaginationBar',
+    props: ['Products'],
     data: function () {
         return {
             pageNumber: 0,
@@ -21,14 +22,11 @@ export default {
     },
     methods: {
         selectedPage: function () {
-            this.$store.commit('CurrentPage', this.pageNumber);
-            this.$emit('renderPage');
+            this.$emit('renderPage', this.pageNumber);
         }
     },
     computed: {
-        Products () {
-          return this.$store.getters['getProductsForRender'];
-        },
+        
     }
 }
 </script>

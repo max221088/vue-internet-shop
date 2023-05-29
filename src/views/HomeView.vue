@@ -1,35 +1,61 @@
 <template>
-  <div class="product-container">
-    <ProductCard v-for="product in Products[CurrentPage]" :product="product" :key="product.id"/>
-  </div>
-  
+  <div>
+    <CategoryBar @filtByCategory="filteredProducts" @filtByQuery="filteredProducts"/>
+    <PaginationBar @renderPage="SelectPage" :Products="productsRender"/>
+    <div class="product-container">
+      <ProductCard v-for="product in productsRender[CurrentPage]" :product="product" :key="product.id"/>
+    </div>
+</div>
 </template>
 
 <script>
 // @ is an alias to /src
 import ProductCard from '/src/components/ProductCard.vue'
+import CategoryBar from '/src/components/CategoryBar.vue'
+import PaginationBar from '/src/components/PaginationBar.vue'
 
 
 export default {
   name: 'HomeView',
   components: {
     ProductCard,
+    CategoryBar,
+    PaginationBar,
   },
   data: function () {
     return {
-
+      CurrentPage: 0
+    }
+  },
+  methods: {
+    filteredProducts(selectedCategory, query ) {
+      let products = [];
+      products = (selectedCategory.length || query)
+      ? this.productsForSearch.filter(product => {
+          return ((selectedCategory.length) 
+        ? product.category.some(category =>{
+          return (selectedCategory.indexOf(category) != (-1))
+          }) : true)
+        && ~product.title.toLowerCase().indexOf(query.toLowerCase());
+      })
+      : this.productsForSearch
+      this.$store.commit('ProductSearch', products);
+    },
+    SelectPage(data) {
+      this.CurrentPage = data;
     }
   },
   computed: {
-    Products () {
-      return this.$store.getters['getProductsForRender'];
-      },
-    CurrentPage () {
-      return this.$store.getters['getCurrentPage'];
+    productsForSearch () {
+        return this.$store.getters['getProductsForSearch'];
+    },
+    productsRender () {
+        return this.$store.getters['getProductsForRender'];
     },
   },
   created: function () {
     this.$store.dispatch('fetchProducts');
+    this.$store.dispatch('fetchCategories');
   }
 }
 </script>

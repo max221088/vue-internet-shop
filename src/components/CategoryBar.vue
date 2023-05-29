@@ -1,5 +1,9 @@
 <template>
     <div class="cat-bar navbar-light bg-light h-100" >
+            <form class="d-flex">
+                <input v-model="searchQuery"  @input="searchProduct()" 
+                class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            </form>
         <p class="title">Category</p>
         <div class="form-check" v-for="(item, index) in getCategories" :key="index">
             <input class="form-check-input" @input="filterCategory(item.id)" type="checkbox" value="" :id="'cl' + item.id">
@@ -19,19 +23,22 @@
     },
     data: function() {
         return {
-            selectedCategory: []
+            selectedCategory: [],
+            searchQuery: '',
         }
     },
     methods: {
         filterCategory(category) {
-         let elementIndex = this.selectedCategory.indexOf(category);
-        if (elementIndex != (-1)) {
-          this.selectedCategory.splice(elementIndex, 1)
-         } else {
-           this.selectedCategory.push(category)
-          }
-            this.$store.commit('SelectedCategory', this.selectedCategory);
-            this.$emit('filtByCategory');
+            let elementIndex = this.selectedCategory.indexOf(category);
+            if (elementIndex != (-1)) {
+                this.selectedCategory.splice(elementIndex, 1)
+            } else {
+                this.selectedCategory.push(category)
+            }
+            this.$emit('filtByCategory', this.selectedCategory, this.searchQuery);
+        },
+        searchProduct () {
+            this.$emit('filtByCategory', this.selectedCategory, this.searchQuery);
         }
     },
     computed: {
@@ -40,7 +47,7 @@
         },
     },
     created: function () {
-        this.$store.dispatch('fetchCategories');
+        
     }
 }
   </script>
