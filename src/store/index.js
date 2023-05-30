@@ -60,6 +60,9 @@ export default new Vuex.Store({
     getCategoriesFromDB (state) {
       return state.categoriesDB;
     },
+    getProductsFromDB (state) {
+      return state.productsDB;
+    },
     getProductsForRender (state) {
        let index = 0;
        let paginatedProducts = [[]];
@@ -76,8 +79,10 @@ export default new Vuex.Store({
   mutations: {
     ProductSearch (state, filteredProduct) {
       state.productsDB = filteredProduct;
+    },
+    ProductsOnPage (state, quantity) {
+      state.ProductsOnPage = quantity;
     }
-    
   },
   actions: {
     fetchProducts(context) {

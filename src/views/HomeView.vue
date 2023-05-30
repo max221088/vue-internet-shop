@@ -1,9 +1,10 @@
 <template>
   <div>
     <CategoryBar @filtByCategory="filteredProducts" @filtByQuery="filteredProducts"/>
-    <PaginationBar @renderPage="SelectPage" :Products="productsRender"/>
+    <SortPanel/>
     <div class="product-container">
       <ProductCard v-for="product in productsRender[CurrentPage]" :product="product" :key="product.id"/>
+      <PaginationBar @renderPage="SelectPage" :Products="productsRender"/>
     </div>
 </div>
 </template>
@@ -13,6 +14,7 @@
 import ProductCard from '/src/components/ProductCard.vue'
 import CategoryBar from '/src/components/CategoryBar.vue'
 import PaginationBar from '/src/components/PaginationBar.vue'
+import SortPanel from '/src/components/SortPanel.vue'
 
 
 export default {
@@ -21,6 +23,7 @@ export default {
     ProductCard,
     CategoryBar,
     PaginationBar,
+    SortPanel
   },
   data: function () {
     return {
@@ -39,6 +42,24 @@ export default {
         && ~product.title.toLowerCase().indexOf(query.toLowerCase());
       })
       : this.productsForSearch
+      // products.sort(function (a, b) {
+      //   if (a.prices.uah.value > b.prices.uah.value) {
+      //     return 1;
+      //   }
+      //   if (a.prices.uah.value < b.prices.uah.value) {
+      //     return -1;
+      //   }
+      //   return 0;
+      // });
+      // products.sort(function (a, b) {
+      //   if (a.title < b.title) {
+      //     return 1;
+      //   }
+      //   if (a.title > b.title) {
+      //     return -1;
+      //   }
+      //   return 0;
+      // });
       this.$store.commit('ProductSearch', products);
     },
     SelectPage(data) {
