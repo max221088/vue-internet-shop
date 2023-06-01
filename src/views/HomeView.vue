@@ -42,24 +42,6 @@ export default {
         && ~product.title.toLowerCase().indexOf(query.toLowerCase());
       })
       : this.productsForSearch
-      // products.sort(function (a, b) {
-      //   if (a.prices.uah.value > b.prices.uah.value) {
-      //     return 1;
-      //   }
-      //   if (a.prices.uah.value < b.prices.uah.value) {
-      //     return -1;
-      //   }
-      //   return 0;
-      // });
-      // products.sort(function (a, b) {
-      //   if (a.title < b.title) {
-      //     return 1;
-      //   }
-      //   if (a.title > b.title) {
-      //     return -1;
-      //   }
-      //   return 0;
-      // });
       this.$store.commit('ProductSearch', products);
     },
     SelectPage(data) {

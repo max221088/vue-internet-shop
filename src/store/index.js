@@ -92,6 +92,14 @@ export default new Vuex.Store({
           data.forEach(list => {
             products.push(list.data());
         });
+        products.sort(function (a, b) {
+          if (Number(a.rating) > Number(b.rating)) {
+            return 1;
+          }
+          if (Number(a.rating) < Number(b.rating)) {
+            return -1;
+          }
+        });
         context.state.productsForSearch = products;
         context.state.productsDB = products;
       })
