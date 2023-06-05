@@ -6,7 +6,7 @@
       <p class="card-text">{{product.short}}</p>
       <p>Price:</p>
       <p class="card-price">{{ product.prices.uah.value }} {{ product.prices.uah.unit }}</p>
-      <router-link :to="{name: 'product' , params:{id: product.id}}" class="btn btn-primary" >Details</router-link>
+      <router-link :to="{name: 'product' , params:{id:product.id}}" class="btn btn-primary" >Details</router-link>
     </div>
   </div>
 </template>
@@ -16,8 +16,9 @@ export default {
   name: 'ProductCard',
   props: ['product'],
   methods: {
-    //{path: '/product/'+product.id}
-  }
+    
+  },
+  
 }
 </script>
 

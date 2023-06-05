@@ -10,9 +10,9 @@ import { initializeApp } from "firebase/app";
 import {  
   getDocs, 
   collection, 
-  //doc, 
+  doc, 
   //setDoc, 
-  //getDoc, 
+  getDoc, 
   getFirestore,
    //deleteDoc
   } from "firebase/firestore";
@@ -36,9 +36,9 @@ const app = initializeApp({
 const DB = getFirestore(app);
 //const AUTH = getAuth(app);
 
-// function getDocFromDB (deskID, colID) {
-//   return getDoc(doc(DB, deskID, colID));
-// }
+function getDocFromDB (deskID, colID) {
+  return getDoc(doc(DB, deskID, colID));
+}
 
 function getDataFromDB (colID) {
   return getDocs(collection(DB, colID))
@@ -48,6 +48,7 @@ function getDataFromDB (colID) {
 export default new Vuex.Store({
   state: {
     productsDB: [],
+    product: [],
     productsForSearch: [],
     categoriesDB: [],
     ProductsOnPage: 1,
@@ -62,6 +63,9 @@ export default new Vuex.Store({
     },
     getProductsFromDB (state) {
       return state.productsDB;
+    },
+    getProduct (state) {
+      return state.product;
     },
     getProductsForRender (state) {
        let index = 0;
@@ -93,10 +97,10 @@ export default new Vuex.Store({
             products.push(list.data());
         });
         products.sort(function (a, b) {
-          if (Number(a.rating) > Number(b.rating)) {
+          if (Number(a.order) > Number(b.order)) {
             return 1;
           }
-          if (Number(a.rating) < Number(b.rating)) {
+          if (Number(a.order) < Number(b.order)) {
             return -1;
           }
         });
@@ -113,6 +117,14 @@ export default new Vuex.Store({
         });
       })
     },
+    fetchProductFromID (context, ID) {
+      return getDocFromDB ('Products', ID)
+      .then(data => {
+        console.log(data.data());
+        context.state.product = [];
+        context.state.product = data.data();
+        })
+      },
   },
   modules: {
   }
