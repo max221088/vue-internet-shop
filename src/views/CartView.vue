@@ -1,7 +1,7 @@
 <template>
     <div class="cart-wrop">
         <div class="container">
-            <div v-if="productForCart"><h2>Cart is Empty</h2></div>
+            <div v-if="!productForCart.length"><h2>Cart is Empty</h2></div>
             <table class="table" v-if="!!productForCart.length">
                 <thead>
                     <tr>
@@ -28,7 +28,13 @@
                     </tr>
                 </tbody>
             </table>
-            
+            <div class="checkout" v-if="!!productForCart.length">
+                <button type="button" class="btn btn-success">Checkout</button>
+            </div>
+            <div class="checkout" v-if="!productForCart.length">
+                <router-link to='/' teg="button" 
+                type="button" class="btn btn-success">Return to Products</router-link>
+            </div>
         </div>
     </div>
 </template>

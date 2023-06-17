@@ -108,7 +108,15 @@ export default new Vuex.Store({
       }
     },
     addProductToCard (state, prod) {
-      state.cartProducts.push(prod);
+      let copy = 0;
+      for (let i = 0; i < state.cartProducts.length; i++) {
+        if (state.cartProducts[i].id === prod.id) {
+          copy++
+        }
+      } 
+      if (copy === 0) {
+        state.cartProducts.push(prod);
+      }
     },
     ProductSearch (state, filteredProduct) {
       state.productsDB = filteredProduct;
