@@ -34,8 +34,8 @@
             <p class="container short"> {{ product.short }}</p>
         </div>
         <div class="container description"> {{ product.description }}</div>
-        <div class="container price">
-            <p class="value">{{ product.prices.uah.value }} {{ product.prices.uah.unit }}</p>
+        <div class="container price" v-if="product.title">
+            <p class="value case-up">{{ product.price.value }} {{ product.price.unit }}</p>
         </div>
     </div>
   </div>

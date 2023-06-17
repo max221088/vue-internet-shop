@@ -31,6 +31,11 @@
       </ul>
     </div>
   </div>
+  <div class="user-nav">
+    <router-link to="/cart">
+      <button type="button" class="btn btn-outline-info">Cart</button>
+    </router-link>
+  </div>
 </nav>
     </div>
     
