@@ -32,6 +32,9 @@
     </div>
   </div>
   <div class="user-nav">
+    <span class="qantiti-index" v-if="productForCart.length">
+      {{ productForCart.length }}
+    </span>
     <router-link to="/cart">
       <button type="button" class="btn btn-outline-info">Cart</button>
     </router-link>
@@ -57,6 +60,9 @@
         
     },
     computed: {
+      productForCart () {
+        return this.$store.getters['getCartProducts'];
+    },
     },
     
 }

@@ -100,6 +100,19 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    delProductFromCart (state, index) {
+      state.cartProducts.splice(index, 1)
+    },
+    incrementAmount (state, index) {
+      state.cartProducts[index].amount++
+      console.log(state.cartProducts[index].amount)
+    },
+    decrementAmount(state, index) {
+      if (state.cartProducts[index].amount > 1) {
+        state.cartProducts[index].amount--
+      }
+      console.log(state.cartProducts[index].amount)
+    },
     addAmountToCart (state, amount) {
       for (let i = 0; i < state.cartProducts.length; i++) {
         if (state.cartProducts[i].id === amount[0]) {
