@@ -28,6 +28,16 @@ const routes = [
     name: 'cart',
     component: () => import('../views/CartView.vue')
   },
+  {
+    path: '/cart/checkout',
+    name: 'checkout',
+    component: () => import('../views/CheckoutView.vue')
+  },
+  {
+    path: '/orders/:id',
+    name: 'orderShow',
+    component: () => import('../views/ShowOrderView.vue')
+  },
 ]
 
 const router = new VueRouter({

@@ -24,9 +24,10 @@
                         <span class="case-up">{{ row.price.unit }}</span></td>
                     <td>{{ row.price.value * row.amount }}
                         <span class="case-up">{{ row.price.unit }}</span></td>
-                        <td data-bs-toggle="modal" data-bs-target="#ModalConfirmDel"><span 
+                    <td data-bs-toggle="modal" data-bs-target="#ModalConfirmDel"><span 
                             @click="delProduct(index)" 
-                            class="btn btn-danger" >Delete</span></td>
+                            class="btn btn-danger" >Delete</span>
+                    </td>
                     </tr>
                     <tr scope="row" class="table-success">
                     <th scope="col" colspan="4">Estimated total</th>
@@ -36,7 +37,7 @@
                 </tbody>
             </table>
             <div class="checkout" v-if="!!productForCart.length">
-                <button type="button" class="btn btn-success">Checkout</button>
+                <router-link to="/cart/checkout" type="button" class="btn btn-success">Checkout</router-link>
             </div>
             <div class="checkout" v-if="!productForCart.length">
                 <router-link to='/' teg="button" 

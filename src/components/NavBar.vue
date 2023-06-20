@@ -36,7 +36,9 @@
       {{ productForCart.length }}
     </span>
     <router-link to="/cart">
-      <button type="button" class="btn btn-outline-info">Cart</button>
+      <button type="button" class="btn btn-outline-info cart-btn">
+        <img src="../assets/img/shopping_cart_icon.svg" class="cart-icon">
+      </button>
     </router-link>
   </div>
 </nav>

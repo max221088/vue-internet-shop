@@ -11,7 +11,7 @@ import {
   getDocs, 
   collection, 
   doc, 
-  //setDoc, 
+  setDoc, 
   getDoc, 
   getFirestore,
    //deleteDoc
@@ -52,10 +52,14 @@ export default new Vuex.Store({
     productsForSearch: [],
     categoriesDB: [],
     ProductsOnPage: 1,
-    cartProducts: []
+    cartProducts: [],
+    showOrder: []
     
   },
   getters: {
+    getShowOrder (state) {
+      return state.showOrder
+    },
     getCartProducts (state) {
       return state.cartProducts
     },
@@ -104,14 +108,16 @@ export default new Vuex.Store({
       state.cartProducts.splice(index, 1)
     },
     incrementAmount (state, index) {
-      state.cartProducts[index].amount++
-      console.log(state.cartProducts[index].amount)
+      let newValue = state.cartProducts[index];
+      newValue.amount++;
+      state.cartProducts.splice(index, 1, newValue)
     },
     decrementAmount(state, index) {
       if (state.cartProducts[index].amount > 1) {
-        state.cartProducts[index].amount--
+        let newValue = state.cartProducts[index];
+        newValue.amount--;
+        state.cartProducts.splice(index, 1, newValue)
       }
-      console.log(state.cartProducts[index].amount)
     },
     addAmountToCart (state, amount) {
       for (let i = 0; i < state.cartProducts.length; i++) {
@@ -119,6 +125,9 @@ export default new Vuex.Store({
           state.cartProducts[i].amount = amount[1];
         }
       }
+    },
+    cartEmpty (state) {
+      state.cartProducts = []
     },
     addProductToCard (state, prod) {
       let copy = 0;
@@ -139,6 +148,17 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    fetchOrderFromID (context, ID) {
+      return getDocFromDB ('Orders', ID)
+      .then(data => {
+        console.log(data.data());
+        context.state.showOrder = [];
+        context.state.showOrder = data.data();
+        })
+      },
+    addOrderToDB (context, order) {
+      return setDoc(doc(DB, 'Orders', order.id), order);
+    },
     fetchProducts(context) {
       let products = [];
       getDataFromDB('Products')
