@@ -76,7 +76,6 @@ export default new Vuex.Store({
             return true
           } 
       })
-      console.log(prod)
       return prod;
     },
     getListProd (state) {
@@ -164,7 +163,6 @@ export default new Vuex.Store({
     fetchOrderFromID (context, ID) {
       return getDocFromDB ('Orders', ID)
       .then(data => {
-        console.log(data.data());
         context.state.showOrder = [];
         context.state.showOrder = data.data();
         })
@@ -204,7 +202,6 @@ export default new Vuex.Store({
     fetchProductFromID (context, ID) {
       return getDocFromDB ('Products', ID)
       .then(data => {
-        console.log(data.data());
         context.state.product = [];
         context.state.product = data.data();
         })
