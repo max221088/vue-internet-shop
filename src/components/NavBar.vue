@@ -15,14 +15,15 @@
         <router-link to="/about" class="nav-link">About</router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">News</a>
+          <router-link to="/news" class="nav-link">News</router-link>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             For Client
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" href="#">Contacts</a></li>
+            <li><router-link to="/waranty" class="nav-link">Warranty Terms</router-link></li>
+            <li><router-link to="/contacts" class="nav-link">Contacts</router-link></li>
             <li><a class="dropdown-item" href="#">Social</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">Something else here</a></li>

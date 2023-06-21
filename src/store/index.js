@@ -53,10 +53,14 @@ export default new Vuex.Store({
     categoriesDB: [],
     ProductsOnPage: 1,
     cartProducts: [],
-    showOrder: []
+    showOrder: [],
+    about: []
     
   },
   getters: {
+    getInfo (state) {
+      return state.about
+    },
     getShowOrder (state) {
       return state.showOrder
     },
@@ -148,6 +152,15 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    fetchAbout(context, content) {
+      getDataFromDB(content)
+        .then(data => {
+          context.state.about = [];
+          data.forEach(list => {
+            context.state.about.push(list.data());
+        });
+      })
+    },
     fetchOrderFromID (context, ID) {
       return getDocFromDB ('Orders', ID)
       .then(data => {
