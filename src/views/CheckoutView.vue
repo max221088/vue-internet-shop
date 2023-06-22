@@ -18,7 +18,7 @@
         </div>
         <div class="input-group">
             <span class="input-group-text">Add order comment</span>
-            <textarea v-model="order.comment" class="form-control"></textarea>
+            <textarea v-model="order.clientComment" class="form-control"></textarea>
         </div>
         <div class="checkout checkout-btn mt-2" v-if="formFill">
                 <button type="button" @click="checkout"
@@ -51,7 +51,9 @@ export default {
             id: '',
             tel: '',
             idClient: '',
-            comment: ''
+            clientComment: '',
+            status: 'new',
+            serviseComment: ''
           },
           isFormFill: false,
       }

@@ -2,7 +2,7 @@
     <div class="wrop container">
       <h1>Thank You for Order</h1>
       <table class="table table-borderless">
-  <tbody>
+  <tbody v-if="!!order.id">
     <tr>
       <td>Order - ID</td>
       <td>{{ order.id }}</td>
@@ -56,22 +56,7 @@ export default {
         }
     },
     methods: {
-        increment(index) {
-            this.$store.commit('incrementAmount', index)
-        },
-        decrement(index) {
-            this.$store.commit('decrementAmount', index)
-            
-        },
-        delProduct(index) {
-            this.index = index;
-            this.delProd = this.productForCart[index].title;
-        },
-        delProductFromCart () {
-            this.$store.commit('delProductFromCart', this.index);
-            this.delProd = '';
-            this.index = '';
-        }
+        
         
     },
     computed: {
