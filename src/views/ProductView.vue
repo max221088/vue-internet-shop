@@ -50,19 +50,17 @@
     },
     data: function() {
         return {
-        id: this.$route.params.id
+        product: this.$route.params.data
         }
     },
     methods: {
         
     },
     computed: {
-        product () {
-        return this.$store.getters['getProduct'];
-    },
+       
     },
     created: function () {
-    this.$store.dispatch('fetchProductFromID', this.id);
+    
   }
 }
   </script>

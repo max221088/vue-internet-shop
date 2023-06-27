@@ -28,7 +28,7 @@
                 <button aria-disabled="true" 
                 type="button" class="btn btn-secondary disabled">Checkout</button>
         </div>
-         <AlertSuccess ref="success"></AlertSuccess>
+          <AlertSuccess ref="success"></AlertSuccess>
     </div>
 </template>
   
@@ -42,10 +42,10 @@ export default {
     AlertSuccess
   },
   data: function() {
-      return {
-          delProd: '',
-          index: '',
-          order: {
+    return {
+        delProd: '',
+        index: '',
+        order: {
             address: '',
             clientName: '',
             id: '',
@@ -54,45 +54,55 @@ export default {
             clientComment: '',
             status: 'new',
             serviseComment: ''
-          },
-          isFormFill: false,
-      }
+        },
+        isFormFill: false,
+    }
   },
   methods: {
     checkout () {
         this.order.products = this.productForCart;
         this.order.id = 'order-' + Date.now().toString();
-        this.order.idClient = 'anonymous-' + Date.now().toString();
+        if (this.isLogin) {
+            this.order.idClient = this.userData.uid;
+            this.$store.commit('addOrderToUserHistory', this.order.id);
+            this.$store.dispatch('addUserDataToDB', this.userData);
+        } else {
+            this.order.idClient = 'anonymous-' + Date.now().toString();
+        }
         this.$store.dispatch('addOrderToDB', this.order);
         this.$refs.success.show();
         this.$router.push({name: 'orderShow' , params:{id: this.order.id}});
         this.$store.commit('cartEmpty');
     },
-      increment(index) {
-          this.$store.commit('incrementAmount', index)
-      },
-      decrement(index) {
-          this.$store.commit('decrementAmount', index)
-          
-      },
-      delProduct(index) {
-          this.index = index;
-          this.delProd = this.productForCart[index].title;
-      },
-      delProductFromCart () {
-          this.$store.commit('delProductFromCart', this.index);
-          this.delProd = '';
-          this.index = '';
-      }
-      
+    increment(index) {
+        this.$store.commit('incrementAmount', index)
+    },
+    decrement(index) {
+        this.$store.commit('decrementAmount', index)
+    },
+    delProduct(index) {
+        this.index = index;
+        this.delProd = this.productForCart[index].title;
+    },
+    delProductFromCart () {
+        this.$store.commit('delProductFromCart', this.index);
+        this.delProd = '';
+        this.index = '';
+    }
   },
-  computed: {
+    computed: {
+        userData () {
+            return this.$store.getters['getUserData'];
+        },
+        isLogin () {
+            return this.$store.getters['getIsLogin'];
+        },
         sumOrder () {
-          let sum = 0;
-          this.productForCart.forEach(prod => {
-              sum = sum +(prod.price.value * prod.amount) 
-          })
-          return sum
+            let sum = 0;
+            this.productForCart.forEach(prod => {
+                sum = sum +(prod.price.value * prod.amount) 
+            })
+            return sum
         },
         productForCart () {
             return this.$store.getters['getCartProducts'];
@@ -105,13 +115,17 @@ export default {
                     return false
                 }
             } else {
-                    return false
-                }
+                return false
+            }
         }
-    },
-  created: function () {
-      this.$store.dispatch('fetchProducts');
-}
-}
-  
+        },
+    created: function () {
+        this.$store.dispatch('fetchProducts');
+        if (this.isLogin) {
+            this.order.address = this.userData.address;
+            this.order.tel = this.userData.tel;
+            this.order.clientName = this.userData.name;
+        }
+    }
+} 
 </script>

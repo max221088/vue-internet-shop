@@ -12,8 +12,7 @@
         <div class="sort-box">
             <p class="title"> Products on page </p>
             <select class="form-select" v-model="ProductsOnPage" @change="selectProductsOnPage">
-                <option selected value="1">1</option>
-                <option value="10">10</option>
+                <option selected value="10">10</option>
                 <option value="20">20</option>
                 <option value="50">50</option>
             </select>
@@ -28,7 +27,7 @@ export default {
     data: function () {
         return {
             SortParam: '1',
-            ProductsOnPage: '1'
+            ProductsOnPage: '10'
         }
     },
     methods: {

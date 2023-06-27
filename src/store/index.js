@@ -16,11 +16,12 @@ import {
   getFirestore,
    //deleteDoc
   } from "firebase/firestore";
-// import {  
-//   getAuth, 
-//   signOut, 
-//   signInWithEmailAndPassword
-// } from "firebase/auth";
+import {  
+  getAuth, 
+  signOut, 
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword
+} from "firebase/auth";
 // Your web app's Firebase configuration
 const app = initializeApp({
   apiKey: "AIzaSyAVJlSbSBMLK3lFnFLNsPIxE5C0ZFrJoFU",
@@ -34,7 +35,7 @@ const app = initializeApp({
 
 // Initialize Firebase
 const DB = getFirestore(app);
-//const AUTH = getAuth(app);
+const AUTH = getAuth(app);
 
 function getDocFromDB (deskID, colID) {
   return getDoc(doc(DB, deskID, colID));
@@ -51,13 +52,22 @@ export default new Vuex.Store({
     product: [],
     productsForSearch: [],
     categoriesDB: [],
-    ProductsOnPage: 1,
+    ProductsOnPage: 10,
     cartProducts: [],
     showOrder: [],
-    about: []
+    about: [],
+    isLogin: false,
+    userData: {}
+    
     
   },
   getters: {
+    getUserData (state) {
+      return state.userData
+    },
+    getIsLogin (state) {
+      return state.isLogin
+    },
     getInfo (state) {
       return state.about
     },
@@ -107,13 +117,21 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    fetchCartFromSession (state, cart) {
+      state.cartProducts = cart;
+    },
+    addOrderToUserHistory (state, order) {
+      state.userData.history.push(order);
+    },
     delProductFromCart (state, index) {
       state.cartProducts.splice(index, 1)
+      window.sessionStorage.setItem('cart', JSON.stringify(state.cartProducts));
     },
     incrementAmount (state, index) {
       let newValue = state.cartProducts[index];
       newValue.amount++;
       state.cartProducts.splice(index, 1, newValue)
+      window.sessionStorage.setItem('cart', JSON.stringify(state.cartProducts));
     },
     decrementAmount(state, index) {
       if (state.cartProducts[index].amount > 1) {
@@ -121,6 +139,7 @@ export default new Vuex.Store({
         newValue.amount--;
         state.cartProducts.splice(index, 1, newValue)
       }
+      window.sessionStorage.setItem('cart', JSON.stringify(state.cartProducts));
     },
     addAmountToCart (state, amount) {
       for (let i = 0; i < state.cartProducts.length; i++) {
@@ -128,9 +147,11 @@ export default new Vuex.Store({
           state.cartProducts[i].amount = amount[1];
         }
       }
+      window.sessionStorage.setItem('cart', JSON.stringify(state.cartProducts));
     },
     cartEmpty (state) {
-      state.cartProducts = []
+      state.cartProducts = [];
+      window.sessionStorage.removeItem('cart');
     },
     addProductToCard (state, prod) {
       let copy = 0;
@@ -142,6 +163,7 @@ export default new Vuex.Store({
       if (copy === 0) {
         state.cartProducts.push(prod);
       }
+      window.sessionStorage.setItem('cart', JSON.stringify(state.cartProducts));
     },
     ProductSearch (state, filteredProduct) {
       state.productsDB = filteredProduct;
@@ -151,6 +173,61 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    fetchUserFromID (context, ID) {
+      return getDocFromDB ('Users', ID)
+      .then(data => {
+        context.state.userData = [];
+        context.state.userData = data.data();
+        if (context.state.userData.role === 'user'){
+          context.state.isLogin = true;
+        } else {
+          alert('wrong login or password')
+        }
+        })
+      },
+    logout (context) {
+      signOut(AUTH)
+        .then(() => {
+          context.state.isLogin = false;
+          context.state.userData = {}
+        })
+    },
+    login (context, userCred) {
+      console.log(userCred)
+      signInWithEmailAndPassword(AUTH, userCred.email, userCred.pass) 
+        .then((Credential) => {
+          console.log(Credential.user.uid)
+          context.dispatch('fetchUserFromID', Credential.user.uid);
+            window.sessionStorage.setItem('login', JSON.stringify(userCred));
+        })
+        .catch((error) => {
+          alert(error.message); 
+        })
+    },
+    addUserDataToDB (context, userData) {
+      return setDoc(doc(DB, 'Users', userData.uid), userData);
+    },
+    registerNewUser (context, registerData) {
+      context.state.userData = registerData;
+      createUserWithEmailAndPassword(AUTH, registerData.email, registerData.pass)
+        .then((userCredential) => {
+          // Signed in 
+          context.state.userData.uid = userCredential.user.uid;
+          context.state.userData.login = userCredential.user.email;
+          delete context.state.userData.pass;
+          delete context.state.userData.passConfirm;
+          context.state.userData.history = [];
+          context.state.userData.role = 'user';
+          console.log(context.state.userData)
+          context.dispatch('addUserDataToDB', context.state.userData);
+          alert('Register Success')
+          // ...
+        })
+        .catch((error) => {
+          alert(error.message)
+          // ..
+        });
+    },
     fetchAbout(context, content) {
       getDataFromDB(content)
         .then(data => {

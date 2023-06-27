@@ -33,7 +33,8 @@
     </div>
   </div>
   <div class="user-nav">
-    <span class="qantiti-index" v-if="productForCart.length">
+    <div class="cart">
+      <span class="qantiti-index" v-if="productForCart.length">
       {{ productForCart.length }}
     </span>
     <router-link to="/cart">
@@ -41,6 +42,29 @@
         <img src="../assets/img/shopping_cart_icon.svg" class="cart-icon">
       </button>
     </router-link>
+    </div>
+    <div class="login">
+      <!-- <button v-if="!isLogin" class="btn btn-link" type="submit">Login</button> -->
+      <div class="btn-group">
+        <button v-if="!isLogin" type="button" class="btn btn-link" data-bs-toggle="dropdown" aria-expanded="false">
+          Login
+        </button>
+        <ul class="dropdown-menu">
+          <!-- <input v-model="userCred.email" type="text" class="form-control login dropdown-item" placeholder="Email"> -->
+          <li class="p-2"><input v-model="userCred.email" type="text" 
+            class="form-control login-input" placeholder="Email"></li>
+            <li class="p-2"><input v-model="userCred.pass" type="password" 
+            class="form-control login-input" placeholder="Password"></li>
+          <li><hr class="dropdown-divider"></li>
+          <li class="p-2"><button @click="login()" v-bind:class="{disabled: !userCred.pass}" 
+            type="button" class="btn btn-success">Enter</button></li>
+        </ul>
+      </div>
+      <router-link to="/register">
+      <button v-if="!isLogin" class="btn btn-outline-success" type="submit">Register</button>
+    </router-link>
+      <button v-if="isLogin" @click="logout()" class="btn btn-outline-success" type="submit">Exit</button>
+    </div>
   </div>
 </nav>
     </div>
@@ -56,17 +80,44 @@
     },
     data: function() {
         return {
-        
+          userCred: {
+            email: '',
+            pass: ''
+          }
         }
     },
     methods: {
+      logout() {
+        this.$store.dispatch('logout');
+        window.sessionStorage.clear();
+        this.userCred = {
+          email: '',
+          pass: ''
+          }
+      },
+      login () {
+        console.log('login')
+        this.$store.dispatch('login', this.userCred);
+    }
         
     },
     computed: {
+      isLogin () {
+        return this.$store.getters['getIsLogin'];
+    },
       productForCart () {
         return this.$store.getters['getCartProducts'];
     },
     },
-    
+    created: function () {
+    if (window.sessionStorage.login) {
+      this.userCred = JSON.parse(window.sessionStorage.login);
+      this.login()
+    }
+    if (window.sessionStorage.cart) {
+      console.log(1)
+      this.$store.commit('fetchCartFromSession', JSON.parse(window.sessionStorage.cart))
+    }
+  }
 }
   </script>

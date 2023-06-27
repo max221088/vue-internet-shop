@@ -6,7 +6,7 @@
       <p class="card-text">{{product.short}}</p>
       <p>Price:</p>
       <p class="card-price">{{ product.price.value }} {{ product.price.unit }}</p>
-      <router-link :to="{name: 'product' , params:{id:product.id}}" class="btn btn-primary" >Details</router-link>
+      <router-link :to="{name: 'product' , params:{data:product}}" class="btn btn-primary" >Details</router-link>
       <div class="btn btn-success buy" :data-id="product.id" @click="addToCart(product)">Buy</div>
       <div class="container-fluid amount" v-if="isShowAmount">
         <div class="btn-lable-amount">Enter Amount</div>

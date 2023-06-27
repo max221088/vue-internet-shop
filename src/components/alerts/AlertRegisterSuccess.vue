@@ -15,7 +15,8 @@
       <div class="alert alert-success d-flex align-items-center" role="alert">
         <svg class="bi flex-shrink-0 me-2" width="24" height="24"><use xlink:href="#check-circle-fill"/></svg>
         <div>
-          Order successfully completed
+            <div>Thank you for registering</div>
+            <div>You can Login</div>
         </div>
       </div>
     </div>
@@ -24,20 +25,20 @@
 <script>
 
   export default {
-    name: 'AlertSuccess',
+    name: 'AlertRegisterSuccess',
     components: {
     
     },
     data: function() {
         return {
-          isShow: false,
+            isShow: false,
         }
     },
     methods: {
         show () {
-          this.isShow = true;
-          setTimeout (()=> {this.isShow = false}, 3000)
-        } 
+            this.isShow = true;
+            setTimeout (()=> {this.isShow = false}, 3000)
+        }
     },
     
 }
