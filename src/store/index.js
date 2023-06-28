@@ -20,7 +20,8 @@ import {
   getAuth, 
   signOut, 
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail
 } from "firebase/auth";
 // Your web app's Firebase configuration
 const app = initializeApp({
@@ -57,11 +58,14 @@ export default new Vuex.Store({
     showOrder: [],
     about: [],
     isLogin: false,
-    userData: {}
-    
+    userData: {},
+    userOrders: []
     
   },
   getters: {
+    getUserOrders (state) {
+      return state.userOrders
+    },
     getUserData (state) {
       return state.userData
     },
@@ -173,6 +177,27 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    sendPasswordOnEmail (context, email) {
+      sendPasswordResetEmail(AUTH, email)
+      .then(() => {
+        alert('Check your Email')
+      })
+      .catch((error) => {
+        alert(error.message)
+      });
+    },
+    fetchUsersOrders (context) {
+      context.state.userOrders = []
+      let ordersID = context.getters['getUserData'].history;
+      if (ordersID) {
+      for (let i = 0; i < ordersID.length; i++) {
+        getDocFromDB ('Orders', ordersID[i])
+        .then(data => {
+          context.state.userOrders.push(data.data());
+          })
+        }
+      }
+    },
     fetchUserFromID (context, ID) {
       return getDocFromDB ('Users', ID)
       .then(data => {
@@ -184,7 +209,7 @@ export default new Vuex.Store({
           alert('wrong login or password')
         }
         })
-      },
+    },
     logout (context) {
       signOut(AUTH)
         .then(() => {
@@ -243,7 +268,7 @@ export default new Vuex.Store({
         context.state.showOrder = [];
         context.state.showOrder = data.data();
         })
-      },
+    },
     addOrderToDB (context, order) {
       return setDoc(doc(DB, 'Orders', order.id), order);
     },
@@ -282,7 +307,7 @@ export default new Vuex.Store({
         context.state.product = [];
         context.state.product = data.data();
         })
-      },
+    },
 
   },
   modules: {

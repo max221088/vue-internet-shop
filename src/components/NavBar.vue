@@ -44,13 +44,11 @@
     </router-link>
     </div>
     <div class="login">
-      <!-- <button v-if="!isLogin" class="btn btn-link" type="submit">Login</button> -->
       <div class="btn-group">
         <button v-if="!isLogin" type="button" class="btn btn-link" data-bs-toggle="dropdown" aria-expanded="false">
           Login
         </button>
         <ul class="dropdown-menu">
-          <!-- <input v-model="userCred.email" type="text" class="form-control login dropdown-item" placeholder="Email"> -->
           <li class="p-2"><input v-model="userCred.email" type="text" 
             class="form-control login-input" placeholder="Email"></li>
             <li class="p-2"><input v-model="userCred.pass" type="password" 
@@ -60,10 +58,21 @@
             type="button" class="btn btn-success">Enter</button></li>
         </ul>
       </div>
+      <div class="btn-group" v-if="isLogin">
+        <div class="btn user-btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" type="button">
+          <img class="user-ava" src="../assets/img/face_avatar_account_icon.svg">
+          <div>User Cabinet</div>
+        </div>
+        <ul class="dropdown-menu">
+          <li><router-link to='/user-orders/' class="dropdown-item" >My orders</router-link></li>
+          <li><router-link to="/user-setting/" class="dropdown-item">Setting</router-link></li>
+          <li><hr class="dropdown-divider"></li>
+          <li class="p-2"><button v-if="isLogin" @click="logout()" class="btn btn-outline-success" type="submit">Exit</button></li>
+        </ul>
+      </div>
       <router-link to="/register">
       <button v-if="!isLogin" class="btn btn-outline-success" type="submit">Register</button>
     </router-link>
-      <button v-if="isLogin" @click="logout()" class="btn btn-outline-success" type="submit">Exit</button>
     </div>
   </div>
 </nav>
@@ -102,6 +111,9 @@
         
     },
     computed: {
+      userData () {
+        return this.$store.getters['getUserData'];
+      },
       isLogin () {
         return this.$store.getters['getIsLogin'];
     },
