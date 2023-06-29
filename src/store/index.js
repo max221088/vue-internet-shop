@@ -14,7 +14,6 @@ import {
   setDoc, 
   getDoc, 
   getFirestore,
-   //deleteDoc
   } from "firebase/firestore";
 import {  
   getAuth, 
@@ -59,7 +58,7 @@ export default new Vuex.Store({
     about: [],
     isLogin: false,
     userData: {},
-    userOrders: []
+    userOrders: [],
     
   },
   getters: {
@@ -218,10 +217,8 @@ export default new Vuex.Store({
         })
     },
     login (context, userCred) {
-      console.log(userCred)
       signInWithEmailAndPassword(AUTH, userCred.email, userCred.pass) 
         .then((Credential) => {
-          console.log(Credential.user.uid)
           context.dispatch('fetchUserFromID', Credential.user.uid);
             window.sessionStorage.setItem('login', JSON.stringify(userCred));
         })
@@ -243,7 +240,6 @@ export default new Vuex.Store({
           delete context.state.userData.passConfirm;
           context.state.userData.history = [];
           context.state.userData.role = 'user';
-          console.log(context.state.userData)
           context.dispatch('addUserDataToDB', context.state.userData);
           alert('Register Success')
           // ...

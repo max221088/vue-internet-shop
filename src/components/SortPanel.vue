@@ -50,18 +50,18 @@ export default {
                     }
                 }
                 if (this.SortParam == 3) {
-                    if (a.prices.uah.value > b.prices.uah.value) {
+                    if (a.price.value > b.price.value) {
                         return 1;
                     }
-                    if (a.prices.uah.value < b.prices.uah.value) {
+                    if (a.price.value < b.price.value) {
                         return -1;
                     }
                 }
                 if (this.SortParam == 4) {
-                    if (a.prices.uah.value < b.prices.uah.value) {
+                    if (a.price.value < b.price.value) {
                         return 1;
                     }
-                    if (a.prices.uah.value > b.prices.uah.value) {
+                    if (a.price.value > b.price.value) {
                         return -1;
                     }
                 }

@@ -46,7 +46,7 @@
     <div class="login">
       <div class="btn-group">
         <button v-if="!isLogin" type="button" class="btn btn-link" data-bs-toggle="dropdown" aria-expanded="false">
-          Login
+          Enter
         </button>
         <ul class="dropdown-menu">
           <li class="p-2"><input v-model="userCred.email" type="text" 
@@ -55,7 +55,7 @@
             class="form-control login-input" placeholder="Password"></li>
           <li><hr class="dropdown-divider"></li>
           <li class="p-2"><button @click="login()" v-bind:class="{disabled: !userCred.pass}" 
-            type="button" class="btn btn-success">Enter</button></li>
+            type="button" class="btn btn-success">Sing In</button></li>
         </ul>
       </div>
       <div class="btn-group" v-if="isLogin">
@@ -105,9 +105,8 @@
           }
       },
       login () {
-        console.log('login')
         this.$store.dispatch('login', this.userCred);
-    }
+      }
         
     },
     computed: {
@@ -127,7 +126,6 @@
       this.login()
     }
     if (window.sessionStorage.cart) {
-      console.log(1)
       this.$store.commit('fetchCartFromSession', JSON.parse(window.sessionStorage.cart))
     }
   }
