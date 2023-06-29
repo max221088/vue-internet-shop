@@ -53,7 +53,7 @@
         </div>
         <div class="row mb-3">
           <div class="col-3">
-            <button type="button" class="btn btn btn-danger btn-sm mx-2"
+            <button type="button" class=" btn btn-danger btn-sm mx-2"
             data-bs-toggle="modal" data-bs-target="#ModalConfirmSaveUser">Save changes</button>
           </div>
         </div>

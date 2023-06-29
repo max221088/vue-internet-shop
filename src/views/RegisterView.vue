@@ -67,7 +67,8 @@ import AlertRegisterSuccess from '../components/alerts/AlertSuccess.vue'
       },
       methods: {
         register () {
-            this.$store.dispatch('registerNewUser', this.registerData)
+            this.$store.dispatch('registerNewUser', this.registerData);
+            this.$route.name['home'];
         }
           
       },
