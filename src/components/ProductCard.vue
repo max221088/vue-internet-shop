@@ -2,9 +2,10 @@
   <div class="card" style="width: 14rem;">
     <img :src="product.avatar" class="card-img-top" >
     <div class="card-body">
-      <h5 class="card-title">{{product.title}}</h5>
+      <router-link :to="{name: 'product' , params:{data:product}}" >
+      <h5 class="card-title ">{{product.title}}</h5>
+    </router-link>
       <p class="card-text my-1 fw-light">{{product.short}}</p>
-      <!-- <p class="my-0 ">Price:</p> -->
       <p class="card-price my-1">
         <span class="fs-5 text-capitalize">Price:</span> 
         {{ product.price.value }} {{ product.price.unit }}
