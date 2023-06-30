@@ -268,6 +268,9 @@ export default new Vuex.Store({
     addOrderToDB (context, order) {
       return setDoc(doc(DB, 'Orders', order.id), order);
     },
+    addReviewToDB (context, prod) {
+      return setDoc(doc(DB, 'Products', prod.id), prod);
+    },
     fetchProducts(context) {
       let products = [];
       getDataFromDB('Products')

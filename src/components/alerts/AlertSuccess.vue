@@ -15,7 +15,7 @@
       <div class="alert alert-success d-flex align-items-center" role="alert">
         <svg class="bi flex-shrink-0 me-2" width="24" height="24"><use xlink:href="#check-circle-fill"/></svg>
         <div>
-          Order successfully completed
+          {{msg}}
         </div>
       </div>
     </div>
@@ -25,6 +25,7 @@
 
   export default {
     name: 'AlertSuccess',
+    props: ['msg'],
     components: {
     
     },

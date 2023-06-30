@@ -42,37 +42,75 @@
             </p>
             <p v-if="!productFromDB">Sorry, product is out of stock</p>
             <div class="buy-container" v-if="productFromDB">
+                <p  class="value">Price : </p>
                 <p class="value case-up">{{ product.price.value }} {{ product.price.unit }}</p>
                 <div class="btn btn-success buy" :data-id="product.id" @click="addToCart">Add to Cart</div>
+            </div>
             <div class="container-fluid amount" v-if="isShowAmount">
                 <div class="btn-lable-amount">Enter Amount</div>
                 <input v-model="valueInput" @change="onChange"
                     class="form-control form-control-sm amount-in" type="text">
             </div>
+        </div>
+        <div class="reviews-block container">
+            <div class="add-review container" v-if="productFromDB">
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" 
+                    class="form-label add-review-title">Your Review</label>
+                    <textarea v-model="review.content" 
+                    class="form-control" id="exampleFormControlTextarea1" rows="2"></textarea>
+                </div>
+                <input v-model="review.email" class="form-control form-control-sm" type="text" placeholder="Email">
+                <input v-model="review.name" class="form-control form-control-sm" type="text" placeholder="Your Name">
+                <button type="button" v-if="fillform" @click.once="sentRewiev()"
+                class="btn btn-info btn-review" >Send</button>
+                <button type="button" v-if="!fillform"
+                class="btn btn-info btn-review" disabled>Send</button>
+            </div>
+            <h5 class="reviews-title" v-if="!product.reviews.length">Product has no reviews</h5>
+            <h5 class="reviews-title" v-if="product.reviews.length"> Product Reviews :</h5>
+            <div class="container-fluid reviews" v-for="review, index in product.reviews" :key="index">
+                <div class="review">
+                    <p class="client-name">{{ review.name }}:</p>
+                    <p class="reviews-content">{{ review.content }}</p>
+                    <p class="date-review">{{ review.date }}</p>
+                </div>
             </div>
         </div>
     </div>
+    <AlertSuccess ref="successRev" :msg="'Your Reviews Sent'"></AlertSuccess>
   </div>
   </template>
 
 <script>
 
+import AlertSuccess from '../components/alerts/AlertSuccess.vue'
+
   export default {
     name: 'ProductView',
     components: {
-    
+        AlertSuccess
     },
     data: function() {
         return {
         product: this.$route.params.data,
         valueInput: '1',
-        isShowAmount: false
+        isShowAmount: false,
+        review: {},
+        isFill: false
         }
     },
     methods: {
+        sentRewiev () {
+            this.review.date = new Date(Date.now()).toLocaleString();
+            this.product.reviews.push(this.review);
+            this.$store.dispatch('addReviewToDB', this.product)
+            this.$refs.successRev.show();
+            this.review = {};
+        },
         addToCart() {
-            this.productFromDB.amount = "1";
-            this.$store.commit('addProductToCard', this.productFromDB)
+            this.product.amount = "1";
+            this.$store.commit('addProductToCard', this.product)
             this.isShowAmount = true;
         },
         onChange () {
@@ -82,6 +120,17 @@
         
     },
     computed: {
+        fillform () {
+            if (this.review.email && this.review.name) {
+                if (this.review.content) {
+                    return true
+                }else {
+                    return false
+                } 
+            } else {
+                    return false
+                }
+        },
         productsDB () {
             return this.$store.getters['getProductsForSearch'];
         },

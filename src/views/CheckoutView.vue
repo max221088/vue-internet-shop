@@ -28,7 +28,7 @@
                 <button aria-disabled="true" 
                 type="button" class="btn btn-secondary disabled">Checkout</button>
         </div>
-          <AlertSuccess ref="success"></AlertSuccess>
+          <AlertSuccess ref="success" :msg="'Order successfully completed'"></AlertSuccess>
     </div>
 </template>
   
