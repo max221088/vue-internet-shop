@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home-wrop">
     <CategoryBar @filtByCategory="filteredProducts" @filtByQuery="filteredProducts"/>
     <SortPanel/>
     <div class="product-container">

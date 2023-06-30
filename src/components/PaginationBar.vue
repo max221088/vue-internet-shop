@@ -1,5 +1,5 @@
 <template>
-    <nav  class="pagination-bar navbar-light bg-light">
+    <nav v-if="Products.lenght > 1"  class="pagination-bar navbar-light ">
         <ul class="pagination pagination-sm" >
             <li class="page-item" aria-current="page" v-for="(item, index) in Products" :key="index" 
             @click="pageNumber = index, selectedPage()">
