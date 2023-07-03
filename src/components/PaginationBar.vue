@@ -12,21 +12,18 @@
 </template>
 
 <script>
-export default {
-    name: 'PaginationBar',
-    props: ['Products'],
-    data: function () {
-        return {
-            pageNumber: 0,
-        }
-    },
-    methods: {
-        selectedPage: function () {
-            this.$emit('renderPage', this.pageNumber);
-        }
-    },
-    computed: {
-        
+    export default {
+        name: 'PaginationBar',
+        props: ['Products'],
+        data: function () {
+            return {
+                pageNumber: 0,
+            }
+        },
+        methods: {
+            selectedPage: function () {
+                this.$emit('renderPage', this.pageNumber);
+            }
+        },
     }
-}
 </script>

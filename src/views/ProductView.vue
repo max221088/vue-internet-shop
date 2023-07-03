@@ -4,10 +4,12 @@
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
                 <button type="button"  data-bs-target="#carouselExampleIndicators" 
-                    data-bs-slide-to="0" class="active nav-btn" aria-current="true" aria-label="'Slide 1"></button>
+                    data-bs-slide-to="0" class="active nav-btn" aria-current="true" aria-label="'Slide 1">
+                </button>
                 <button type="button" v-for="item, index in product.gallery" :key=index 
                     data-bs-target="#carouselExampleIndicators" :data-bs-slide-to=index+1 
-                        :aria-label="'Slide'+' '+index+2" class="nav-btn"></button>
+                    :aria-label="'Slide'+' '+index+2" class="nav-btn">
+                </button>
             </div>
             <div class="carousel-inner">
                 <div class="carousel-item active">
@@ -117,7 +119,6 @@ import AlertSuccess from '../components/alerts/AlertSuccess.vue'
             let amount = [this.productFromDB.id, this.valueInput]
             this.$store.commit('addAmountToCart', amount )
         }
-        
     },
     computed: {
         fillform () {
@@ -128,8 +129,8 @@ import AlertSuccess from '../components/alerts/AlertSuccess.vue'
                     return false
                 } 
             } else {
-                    return false
-                }
+                return false
+            }
         },
         productsDB () {
             return this.$store.getters['getProductsForSearch'];
@@ -148,8 +149,5 @@ import AlertSuccess from '../components/alerts/AlertSuccess.vue'
             }
         },
     },
-    created: function () {
-        
-  }
 }
   </script>

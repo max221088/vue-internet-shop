@@ -59,7 +59,6 @@ export default new Vuex.Store({
     isLogin: false,
     userData: {},
     userOrders: [],
-    
   },
   getters: {
     getUserOrders (state) {
@@ -83,11 +82,10 @@ export default new Vuex.Store({
     getCartRenderData (state) {
       let prod = [];
       prod = state.productsForSearch.filter(el => {
-        
-          if (state.listProdId.indexOf(el.id) != -1) {
-            el.amount = state.listProdAmount[el.id]
-            return true
-          } 
+        if (state.listProdId.indexOf(el.id) != -1) {
+          el.amount = state.listProdAmount[el.id]
+          return true
+        } 
       })
       return prod;
     },
@@ -189,10 +187,10 @@ export default new Vuex.Store({
       context.state.userOrders = []
       let ordersID = context.getters['getUserData'].history;
       if (ordersID) {
-      for (let i = 0; i < ordersID.length; i++) {
-        getDocFromDB ('Orders', ordersID[i])
-        .then(data => {
-          context.state.userOrders.push(data.data());
+        for (let i = 0; i < ordersID.length; i++) {
+          getDocFromDB ('Orders', ordersID[i])
+          .then(data => {
+            context.state.userOrders.push(data.data());
           })
         }
       }
@@ -207,24 +205,24 @@ export default new Vuex.Store({
         } else {
           alert('wrong login or password')
         }
-        })
+      })
     },
     logout (context) {
       signOut(AUTH)
-        .then(() => {
-          context.state.isLogin = false;
-          context.state.userData = {}
-        })
+      .then(() => {
+        context.state.isLogin = false;
+        context.state.userData = {}
+      })
     },
     login (context, userCred) {
       signInWithEmailAndPassword(AUTH, userCred.email, userCred.pass) 
-        .then((Credential) => {
-          context.dispatch('fetchUserFromID', Credential.user.uid);
-            window.sessionStorage.setItem('login', JSON.stringify(userCred));
-        })
-        .catch((error) => {
-          alert(error.message); 
-        })
+      .then((Credential) => {
+        context.dispatch('fetchUserFromID', Credential.user.uid);
+        window.sessionStorage.setItem('login', JSON.stringify(userCred));
+      })
+      .catch((error) => {
+        alert(error.message); 
+      })
     },
     addUserDataToDB (context, userData) {
       return setDoc(doc(DB, 'Users', userData.uid), userData);
@@ -232,29 +230,29 @@ export default new Vuex.Store({
     registerNewUser (context, registerData) {
       context.state.userData = registerData;
       createUserWithEmailAndPassword(AUTH, registerData.email, registerData.pass)
-        .then((userCredential) => {
-          // Signed in 
-          context.state.userData.uid = userCredential.user.uid;
-          context.state.userData.login = userCredential.user.email;
-          delete context.state.userData.pass;
-          delete context.state.userData.passConfirm;
-          context.state.userData.history = [];
-          context.state.userData.role = 'user';
-          context.dispatch('addUserDataToDB', context.state.userData);
-          alert('Register Success')
-          // ...
-        })
-        .catch((error) => {
-          alert(error.message)
-          // ..
-        });
+      .then((userCredential) => {
+        // Signed in 
+        context.state.userData.uid = userCredential.user.uid;
+        context.state.userData.login = userCredential.user.email;
+        delete context.state.userData.pass;
+        delete context.state.userData.passConfirm;
+        context.state.userData.history = [];
+        context.state.userData.role = 'user';
+        context.dispatch('addUserDataToDB', context.state.userData);
+        alert('Register Success')
+        // ...
+      })
+      .catch((error) => {
+        alert(error.message)
+        // ..
+      });
     },
     fetchAbout(context, content) {
       getDataFromDB(content)
-        .then(data => {
-          context.state.about = [];
-          data.forEach(list => {
-            context.state.about.push(list.data());
+      .then(data => {
+        context.state.about = [];
+        data.forEach(list => {
+          context.state.about.push(list.data());
         });
       })
     },
@@ -263,7 +261,7 @@ export default new Vuex.Store({
       .then(data => {
         context.state.showOrder = [];
         context.state.showOrder = data.data();
-        })
+      })
     },
     addOrderToDB (context, order) {
       return setDoc(doc(DB, 'Orders', order.id), order);
@@ -293,10 +291,10 @@ export default new Vuex.Store({
     },
     fetchCategories(context) {
       getDataFromDB('Сategories')
-        .then(data => {
-          context.state.categoriesDB = [];
-          data.forEach(list => {
-            context.state.categoriesDB.push(list.data());
+      .then(data => {
+        context.state.categoriesDB = [];
+        data.forEach(list => {
+          context.state.categoriesDB.push(list.data());
         });
       })
     },
@@ -305,9 +303,8 @@ export default new Vuex.Store({
       .then(data => {
         context.state.product = [];
         context.state.product = data.data();
-        })
+      })
     },
-
   },
   modules: {
   }

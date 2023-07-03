@@ -11,26 +11,20 @@
 
 export default {
     name: 'AboutView',
-    components: {
-    
-    },
     data: function() {
         return {
         
-        }
-    },
-    methods: {
-        
+      }
     },
     computed: {
-        content () {
-        return this.$store.getters['getInfo'];
+      content () {
+      return this.$store.getters['getInfo'];
     },
     },
     created: function () {
-    this.$store.dispatch('fetchAbout', 'About');
+      this.$store.dispatch('fetchAbout', 'About');
+    }
   }
-}
 
 
 </script>

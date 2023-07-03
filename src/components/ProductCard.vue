@@ -25,32 +25,31 @@
 </template>
 
 <script>
-export default {
-  name: 'ProductCard',
-  props: ['product'],
-  data: () => {
-    return {
-      valueInput: '1',
-      isShowAmount: false
-    }
-  },
-  computed: {
-    listProd () {
-      return this.$store.getters['getListProd']
-    }
-  },
-  methods: {
-    addToCart(product) {
-      product.amount = "1";
-      this.$store.commit('addProductToCard', product)
-      this.isShowAmount = true;
+  export default {
+    name: 'ProductCard',
+    props: ['product'],
+    data: () => {
+      return {
+        valueInput: '1',
+        isShowAmount: false
+      }
     },
-    onChange (id) {
-      let amount = [id, this.valueInput]
-      this.$store.commit('addAmountToCart', amount )
-     }
-  },
-  
-}
+    computed: {
+      listProd () {
+        return this.$store.getters['getListProd']
+      }
+    },
+    methods: {
+      addToCart(product) {
+        product.amount = "1";
+        this.$store.commit('addProductToCard', product)
+        this.isShowAmount = true;
+      },
+      onChange (id) {
+        let amount = [id, this.valueInput]
+        this.$store.commit('addAmountToCart', amount )
+      }
+    },
+  }
 </script>
 

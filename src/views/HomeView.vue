@@ -50,10 +50,10 @@ export default {
   },
   computed: {
     productsForSearch () {
-        return this.$store.getters['getProductsForSearch'];
+      return this.$store.getters['getProductsForSearch'];
     },
     productsRender () {
-        return this.$store.getters['getProductsForRender'];
+      return this.$store.getters['getProductsForRender'];
     },
   },
   created: function () {

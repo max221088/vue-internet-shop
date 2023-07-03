@@ -22,19 +22,13 @@
  
  
  <script>
- export default {
-   name: 'ModalConfirm',
-   props: ['msg', 'btnText'],
-   data: function () {
-     return {
-       
-     }
-   },
-   methods: {
-     delPrice () {
-            this.$emit('DelProduct')
-     
-     }
-   }
- }
+  export default {
+    name: 'ModalConfirm',
+    props: ['msg', 'btnText'],
+    methods: {
+      delPrice () {
+        this.$emit('DelProduct')
+      }
+    }
+  }
  </script>

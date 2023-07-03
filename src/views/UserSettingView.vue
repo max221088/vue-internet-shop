@@ -48,49 +48,42 @@
           </div>
           <div class="col-2">
             <router-link to='/user-orders/' type="button" 
-              class="btn btn-primary btn-sm mx-2">Show Orders</router-link>
+              class="btn btn-primary btn-sm mx-2">Show Orders
+            </router-link>
           </div>
         </div>
         <div class="row mb-3">
           <div class="col-3">
             <button type="button" class=" btn btn-danger btn-sm mx-2"
-            data-bs-toggle="modal" data-bs-target="#ModalConfirmSaveUser">Save changes</button>
+              data-bs-toggle="modal" data-bs-target="#ModalConfirmSaveUser">Save changes
+            </button>
           </div>
         </div>
         <ModalConfirm id="ModalConfirmSaveUser" :msg="'Save changes?' " 
-            :btnText="'Yes'" @DelProduct="saveUserData"></ModalConfirm>
+          :btnText="'Yes'" @DelProduct="saveUserData">
+        </ModalConfirm>
     </div>
   </template>
   
-  <script>
+<script>
   
 import ModalConfirm from '../components/ModalConfirm.vue'
 
-  export default {
-      name: 'userSetting',
-      components: {
-        ModalConfirm
-      },
-      data: function() {
-          return {
-            
-          }
-      },
-      methods: {
-        saveUserData() {
-          this.$store.dispatch('addUserDataToDB', this.userData);
-        }
-        
-      },
-      computed: {
-        userData () {
-          return this.$store.getters['getUserData'];
-        },
-      },
-      created: function () {
-      
+export default {
+  name: 'userSetting',
+  components: {
+    ModalConfirm
+  },
+  methods: {
+    saveUserData() {
+      this.$store.dispatch('addUserDataToDB', this.userData);
     }
-  }
+  },
+  computed: {
+    userData () {
+      return this.$store.getters['getUserData'];
+    },
+  },
+}
   
-  
-  </script>
+</script>

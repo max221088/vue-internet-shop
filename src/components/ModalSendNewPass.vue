@@ -25,19 +25,19 @@
  
  
  <script>
- export default {
-   name: 'ModalSendNewPass',
-   props: [],
-   data: function () {
-     return {
-       email: ''
-     }
-   },
-   methods: {
-     confirm () {
-            this.$emit('sendPass', this.email)
-     
-     }
-   }
- }
+  export default {
+    name: 'ModalSendNewPass',
+    props: [],
+    data: function () {
+      return {
+        email: ''
+      }
+    },
+    methods: {
+      confirm () {
+        this.$emit('sendPass', this.email)
+      
+      }
+    }
+  }
  </script>

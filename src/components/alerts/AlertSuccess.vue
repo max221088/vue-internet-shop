@@ -30,16 +30,16 @@
     
     },
     data: function() {
-        return {
-          isShow: false,
-        }
+      return {
+        isShow: false,
+      }
     },
     methods: {
-        show () {
-          this.isShow = true;
-          setTimeout (()=> {this.isShow = false}, 3000)
-        } 
-    },
-    
-}
-  </script>
+      show () {
+        this.isShow = true;
+        setTimeout (()=> {this.isShow = false}, 3000)
+      } 
+    }, 
+  }
+  
+</script>

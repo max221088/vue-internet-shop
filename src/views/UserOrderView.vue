@@ -57,43 +57,40 @@
                 </div>
             </div>
         </div>
+        <div class="checkout" v-if="!orders.length">
+            <p class="text-center">You have no orders</p>
+                <router-link to='/' teg="button" 
+                type="button" class="btn btn-success empty-cart">Return to Products</router-link>
+            </div>
     </div>
   </template>
   
   <script>
   
-  export default {
-      name: 'userOrders',
-      components: {
-      
-      },
-      data: function() {
-          return {
-          }
-      },
-      methods: {
-        sumOrder (products) {
-            let sum = 0;
-            for (let i = 0; i < products.length; i++) {
-                sum = sum +(products[i].price.value * products[i].amount) 
-            }
-            return sum
+    export default {
+        name: 'userOrders',
+        
+        methods: {
+            sumOrder (products) {
+                let sum = 0;
+                for (let i = 0; i < products.length; i++) {
+                    sum = sum +(products[i].price.value * products[i].amount) 
+                }
+                return sum
+            },
+            getDate (id) {
+                let dateNow = Number(id.split('-').pop());
+                let date =  new Date(dateNow).toLocaleString();
+                return date
+            },
         },
-        getDate (id) {
-            let dateNow = Number(id.split('-').pop());
-            let date =  new Date(dateNow).toLocaleString();
-            return date
+        computed: {
+            orders () {
+                return this.$store.getters['getUserOrders'];
+            },
         },
-      },
-      computed: {
-        orders () {
-            return this.$store.getters['getUserOrders'];
-        },
-      },
-      created: function () {
-      this.$store.dispatch('fetchUsersOrders');
+        created: function () {
+            this.$store.dispatch('fetchUsersOrders');
+        }
     }
-  }
-  
-  
-  </script>
+</script>

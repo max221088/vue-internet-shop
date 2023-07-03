@@ -15,22 +15,7 @@ export default {
   components: {
     NavBar,
     DownFooter
-    
   },
-  data: function () {
-    return {
-      
-    }
-  },
-  methods: {
-    
-  },
-  computed: {
-    
-  },
-  created: function () {
-    
-  }
 }
 
 </script>

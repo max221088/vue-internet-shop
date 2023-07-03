@@ -40,43 +40,38 @@
       <router-link to='/' teg="button" 
       type="button" class="btn btn-success empty-cart">Return to Products</router-link>
     </div>
-    <AlertSuccess ref="success"></AlertSuccess>
+    
     </div>
 </template>
 
 <script>
 
-import AlertSuccess from '../components/alerts/AlertSuccess.vue'
+
 
 export default {
     name: 'ShowOrder',
     components: {
-      AlertSuccess
+      
     },
     data: function() {
-        return {
-            id: this.$route.params.id,
-        }
-    },
-    methods: {
-        
-        
+      return {
+        id: this.$route.params.id,
+      }
     },
     computed: {
-        sumOrder () {
-            let sum = 0;
-            for (let i = 0; i < this.order.products.length; i++) {
-                sum = sum +(this.order.products[i].price.value * this.order.products[i].amount) 
-            }
-            return sum
-        },
-        order () {
+      sumOrder () {
+        let sum = 0;
+        for (let i = 0; i < this.order.products.length; i++) {
+          sum = sum +(this.order.products[i].price.value * this.order.products[i].amount) 
+        }
+        return sum
+      },
+      order () {
         return this.$store.getters['getShowOrder'];
-    },
+      },
     },
     created: function () {
-      //this.$refs.success.show();
-      this.$store.dispatch('fetchOrderFromID', this.id);
+    this.$store.dispatch('fetchOrderFromID', this.id);
   }
 }
 

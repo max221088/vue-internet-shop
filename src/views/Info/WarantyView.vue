@@ -9,28 +9,16 @@
 
 <script>
 
-export default {
+  export default {
     name: 'WarantyView',
-    components: {
-    
-    },
-    data: function() {
-        return {
-        
-        }
-    },
-    methods: {
-        
-    },
     computed: {
-        content () {
+      content () {
         return this.$store.getters['getInfo'];
-    },
+      },
     },
     created: function () {
-    this.$store.dispatch('fetchAbout', 'Waranty-info');
+      this.$store.dispatch('fetchAbout', 'Waranty-info');
+    }
   }
-}
-
 
 </script>

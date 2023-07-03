@@ -37,59 +37,59 @@
 import AlertSuccess from '../components/alerts/AlertSuccess.vue'
 
 export default {
-  name: 'CheckoutView',
-  components: {
-    AlertSuccess
-  },
-  data: function() {
-    return {
-        delProd: '',
-        index: '',
-        order: {
-            address: '',
-            clientName: '',
-            id: '',
-            tel: '',
-            idClient: '',
-            clientComment: '',
-            status: 'new',
-            serviseComment: ''
-        },
-        isFormFill: false,
-    }
-  },
-  methods: {
-    checkout () {
-        this.order.products = this.productForCart;
-        this.order.id = 'order-' + Date.now().toString();
-        if (this.isLogin) {
-            this.order.idClient = this.userData.uid;
-            this.$store.commit('addOrderToUserHistory', this.order.id);
-            this.$store.dispatch('addUserDataToDB', this.userData);
-        } else {
-            this.order.idClient = 'anonymous-' + Date.now().toString();
+    name: 'CheckoutView',
+    components: {
+        AlertSuccess
+    },
+    data: function() {
+        return {
+            delProd: '',
+            index: '',
+            order: {
+                address: '',
+                clientName: '',
+                id: '',
+                tel: '',
+                idClient: '',
+                clientComment: '',
+                status: 'new',
+                serviseComment: ''
+            },
+            isFormFill: false,
         }
-        this.$store.dispatch('addOrderToDB', this.order);
-        this.$refs.success.show();
-        this.$router.push({name: 'orderShow' , params:{id: this.order.id}});
-        this.$store.commit('cartEmpty');
     },
-    increment(index) {
-        this.$store.commit('incrementAmount', index)
+    methods: {
+        checkout () {
+            this.order.products = this.productForCart;
+            this.order.id = 'order-' + Date.now().toString();
+            if (this.isLogin) {
+                this.order.idClient = this.userData.uid;
+                this.$store.commit('addOrderToUserHistory', this.order.id);
+                this.$store.dispatch('addUserDataToDB', this.userData);
+            } else {
+                this.order.idClient = 'anonymous-' + Date.now().toString();
+            }
+            this.$refs.success.show();
+            this.$store.dispatch('addOrderToDB', this.order);
+            this.$store.commit('cartEmpty');
+            this.$router.push({name: 'orderShow' , params:{id: this.order.id}});
+        },
+        increment(index) {
+            this.$store.commit('incrementAmount', index)
+        },
+        decrement(index) {
+            this.$store.commit('decrementAmount', index)
+        },
+        delProduct(index) {
+            this.index = index;
+            this.delProd = this.productForCart[index].title;
+        },
+        delProductFromCart () {
+            this.$store.commit('delProductFromCart', this.index);
+            this.delProd = '';
+            this.index = '';
+        }
     },
-    decrement(index) {
-        this.$store.commit('decrementAmount', index)
-    },
-    delProduct(index) {
-        this.index = index;
-        this.delProd = this.productForCart[index].title;
-    },
-    delProductFromCart () {
-        this.$store.commit('delProductFromCart', this.index);
-        this.delProd = '';
-        this.index = '';
-    }
-  },
     computed: {
         userData () {
             return this.$store.getters['getUserData'];
@@ -118,7 +118,7 @@ export default {
                 return false
             }
         }
-        },
+    },
     created: function () {
         this.$store.dispatch('fetchProducts');
         if (this.isLogin) {

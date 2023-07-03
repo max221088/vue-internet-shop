@@ -30,9 +30,9 @@
                     </td>
                     </tr>
                     <tr scope="row" class="table-success">
-                    <th scope="col" colspan="4">Estimated total</th>
-                    <th scope="col">{{ sumOrder }} UAH</th>
-                    <th></th>
+                        <th scope="col" colspan="4">Estimated total</th>
+                        <th scope="col">{{ sumOrder }} UAH</th>
+                        <th></th>
                     </tr>
                 </tbody>
             </table>
@@ -44,7 +44,7 @@
                 type="button" class="btn btn-success empty-cart">Return to Products</router-link>
             </div>
             <ModalConfirm id="ModalConfirmDel" :msg="'Remove product '+delProd+' from cart ?' " 
-            :btnText="'Delete'" @DelProduct="delProductFromCart"></ModalConfirm>
+                :btnText="'Delete'" @DelProduct="delProductFromCart"></ModalConfirm>
         </div>
     </div>
 </template>
@@ -52,50 +52,50 @@
 <script>
     import ModalConfirm from '../components/ModalConfirm.vue'
 
-  export default {
-    name: 'CartView',
-    components: {
-        ModalConfirm
-    },
-    data: function() {
-        return {
-            delProd: '',
-            index: ''
-        }
-    },
-    methods: {
-        increment(index) {
-            this.$store.commit('incrementAmount', index)
+    export default {
+        name: 'CartView',
+        components: {
+            ModalConfirm
         },
-        decrement(index) {
-            this.$store.commit('decrementAmount', index)
+        data: function() {
+            return {
+                delProd: '',
+                index: ''
+            }
+        },
+        methods: {
+            increment(index) {
+                this.$store.commit('incrementAmount', index)
+            },
+            decrement(index) {
+                this.$store.commit('decrementAmount', index)
+                
+            },
+            delProduct(index) {
+                this.index = index;
+                this.delProd = this.productForCart[index].title;
+            },
+            delProductFromCart () {
+                this.$store.commit('delProductFromCart', this.index);
+                this.delProd = '';
+                this.index = '';
+            }
             
         },
-        delProduct(index) {
-            this.index = index;
-            this.delProd = this.productForCart[index].title;
+        computed: {
+            sumOrder () {
+                let sum = 0;
+                this.productForCart.forEach(prod => {
+                    sum = sum +(prod.price.value * prod.amount) 
+                })
+                return sum
+            },
+            productForCart () {
+                return this.$store.getters['getCartProducts'];
+            },
         },
-        delProductFromCart () {
-            this.$store.commit('delProductFromCart', this.index);
-            this.delProd = '';
-            this.index = '';
+        created: function () {
+            this.$store.dispatch('fetchProducts');
         }
-        
-    },
-    computed: {
-        sumOrder () {
-            let sum = 0;
-            this.productForCart.forEach(prod => {
-                sum = sum +(prod.price.value * prod.amount) 
-            })
-            return sum
-        },
-        productForCart () {
-        return this.$store.getters['getCartProducts'];
-    },
-    },
-    created: function () {
-        this.$store.dispatch('fetchProducts');
-  }
-}
-  </script>
+    }
+</script>

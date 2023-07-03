@@ -9,28 +9,17 @@
 
 <script>
 
-export default {
+  export default {
     name: 'NewsView',
-    components: {
-    
-    },
-    data: function() {
-        return {
-        
-        }
-    },
-    methods: {
-        
-    },
     computed: {
         content () {
         return this.$store.getters['getInfo'];
-    },
+      },
     },
     created: function () {
-    this.$store.dispatch('fetchAbout', 'News');
+      this.$store.dispatch('fetchAbout', 'News');
+    }
   }
-}
 
 
 </script>

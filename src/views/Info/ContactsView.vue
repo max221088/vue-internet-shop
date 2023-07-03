@@ -9,28 +9,25 @@
 
 <script>
 
-export default {
+  export default {
     name: 'AboutView',
     components: {
     
     },
     data: function() {
-        return {
-        
-        }
-    },
-    methods: {
-        
+      return {
+      
+      }
     },
     computed: {
-        content () {
+      content () {
         return this.$store.getters['getInfo'];
-    },
+      },
     },
     created: function () {
-    this.$store.dispatch('fetchAbout', 'Contacts');
+      this.$store.dispatch('fetchAbout', 'Contacts');
+    }
   }
-}
 
 
 </script>

@@ -16,10 +16,10 @@
 
 <script>
 
-  export default {
+export default {
     name: 'CategoryBar',
     components: {
-    
+
     },
     data: function() {
         return {
@@ -43,11 +43,8 @@
     },
     computed: {
         getCategories () {
-          return this.$store.getters['getCategoriesFromDB'];
+        return this.$store.getters['getCategoriesFromDB'];
         },
     },
-    created: function () {
-        
-    }
 }
-  </script>
+</script>
