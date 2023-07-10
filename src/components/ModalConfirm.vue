@@ -27,7 +27,7 @@
     props: ['msg', 'btnText'],
     methods: {
       delPrice () {
-        this.$emit('DelProduct')
+        this.$emit('delProduct')
       }
     }
   }

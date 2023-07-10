@@ -1,5 +1,5 @@
 <template>
-    <div class="wrop container">
+    <div class="wrop container" id="check">
         <div>You can <span class="login-btn link-success">Login</span> or fill in the details</div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Telephone</span>
@@ -28,19 +28,14 @@
                 <button aria-disabled="true" 
                 type="button" class="btn btn-secondary disabled">Checkout</button>
         </div>
-          <AlertSuccess ref="success" :msg="'Order successfully completed'"></AlertSuccess>
     </div>
 </template>
   
 <script>
 
-import AlertSuccess from '../components/alerts/AlertSuccess.vue'
 
 export default {
     name: 'CheckoutView',
-    components: {
-        AlertSuccess
-    },
     data: function() {
         return {
             delProd: '',
@@ -59,6 +54,12 @@ export default {
         }
     },
     methods: {
+        scroll () {
+            document.getElementById('check').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            })
+        },
         checkout () {
             this.order.products = this.productForCart;
             this.order.id = 'order-' + Date.now().toString();
@@ -69,10 +70,9 @@ export default {
             } else {
                 this.order.idClient = 'anonymous-' + Date.now().toString();
             }
-            this.$refs.success.show();
             this.$store.dispatch('addOrderToDB', this.order);
             this.$store.commit('cartEmpty');
-            this.$router.push({name: 'orderShow' , params:{id: this.order.id}});
+            this.$emit('order', this.order);
         },
         increment(index) {
             this.$store.commit('incrementAmount', index)

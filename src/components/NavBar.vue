@@ -26,7 +26,6 @@
               <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <li><router-link to="/waranty" class="nav-link">Warranty Terms</router-link></li>
                 <li><router-link to="/contacts" class="nav-link">Contacts</router-link></li>
-                <li><a class="dropdown-item" href="#">Social</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#">Something else here</a></li>
               </ul>

@@ -1,7 +1,7 @@
 <template>
-    <div class="wrop container">
-      <h1>Thank You for Order</h1>
-      <table class="table table-borderless">
+   <div class="wrop container">
+    <h1>Thank You for Order</h1>
+    <table class="table table-borderless">
       <tbody v-if="!!order.id">
         <tr>
           <td>Order - ID</td>
@@ -40,39 +40,29 @@
       <router-link to='/' teg="button" 
       type="button" class="btn btn-success empty-cart">Return to Products</router-link>
     </div>
-    
-    </div>
+  </div>
 </template>
 
 <script>
 
-
-
 export default {
-    name: 'ShowOrder',
-    components: {
+  name: 'ShowOrder',
+  props: ['order'],
+  data: function() {
+    return {
       
-    },
-    data: function() {
-      return {
-        id: this.$route.params.id,
+    }
+  },
+  computed: {
+    sumOrder () {
+      let sum = 0;
+      for (let i = 0; i < this.order.products.length; i++) {
+        sum = sum +(this.order.products[i].price.value * this.order.products[i].amount) 
       }
+      return sum
     },
-    computed: {
-      sumOrder () {
-        let sum = 0;
-        for (let i = 0; i < this.order.products.length; i++) {
-          sum = sum +(this.order.products[i].price.value * this.order.products[i].amount) 
-        }
-        return sum
-      },
-      order () {
-        return this.$store.getters['getShowOrder'];
-      },
-    },
-    created: function () {
-    this.$store.dispatch('fetchOrderFromID', this.id);
-  }
+  },
+    
 }
 
 </script>

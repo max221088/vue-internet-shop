@@ -1,6 +1,10 @@
 <template>
     <div class="cart-wrop">
-        <div class="container">
+        <div class="container" v-show="!order">
+            <div class="checkout" v-if="productForCart.length">
+                <router-link to='/' teg="button" 
+                type="button" class="btn btn-success empty-cart">Continue Shopping</router-link>
+            </div>
             <div v-if="!productForCart.length" class="empty-cart"><h2 class="center-block">Cart is Empty</h2></div>
             <table class="table" v-if="!!productForCart.length">
                 <thead>
@@ -16,7 +20,7 @@
                 <tbody>
                     <tr v-for="row, index in productForCart" :key="index">
                     <th scope="row">{{ index + 1 }}</th>
-                    <td><router-link :to="{name: 'product' , params:{id:row.id}}" >{{ row.title }}</router-link></td>
+                    <td><router-link :to="{name: 'product' , params:{data:row}}" >{{ row.title }}</router-link></td>
                     <td><span class="btn-amount" @click="decrement(index)"> -</span>
                         {{ row.amount }}
                     <span class="btn-amount" @click="increment(index)"> + </span></td>
@@ -37,33 +41,57 @@
                 </tbody>
             </table>
             <div class="checkout" v-if="!!productForCart.length">
-                <router-link to="/cart/checkout" type="button" class="btn btn-success">Checkout</router-link>
+                <div @click="showCheckSection" type="button" class="btn btn-success">Proceed to Checkout</div>
             </div>
             <div class="checkout" v-if="!productForCart.length">
                 <router-link to='/' teg="button" 
                 type="button" class="btn btn-success empty-cart">Return to Products</router-link>
             </div>
+            <transition name="component-fade" mode="out-in">
+                <Checkout v-show="checkOrder" ref="check" @order="getOrder"/>
+            </transition>
             <ModalConfirm id="ModalConfirmDel" :msg="'Remove product '+delProd+' from cart ?' " 
-                :btnText="'Delete'" @DelProduct="delProductFromCart"></ModalConfirm>
+                :btnText="'Delete'" @delProduct="delProductFromCart">
+            </ModalConfirm>
         </div>
+        <transition name="component-fade" mode="out-in">
+            <ShowOrder :order="order" v-if="order"/>
+        </transition>
+        <AlertSuccess ref="success" :msg="'Order successfully completed'"></AlertSuccess>
     </div>
 </template>
 
 <script>
     import ModalConfirm from '../components/ModalConfirm.vue'
+    import Checkout from '../components/CheckoutSection.vue'
+    import ShowOrder from '../components/ShowOrder.vue'
+    import AlertSuccess from '../components/alerts/AlertSuccess.vue'
 
     export default {
         name: 'CartView',
         components: {
-            ModalConfirm
+            ModalConfirm,
+            Checkout,
+            ShowOrder,
+            AlertSuccess
         },
         data: function() {
             return {
                 delProd: '',
-                index: ''
+                index: '',
+                checkOrder: false,
+                order: false
             }
         },
         methods: {
+            getOrder (data) {
+                this.order = data;
+                this.$refs.success.show();
+            },
+            showCheckSection () {
+                this.checkOrder = true;
+                this.$refs.check.scroll()
+            },
             increment(index) {
                 this.$store.commit('incrementAmount', index)
             },

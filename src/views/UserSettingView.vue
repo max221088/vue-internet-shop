@@ -60,7 +60,7 @@
           </div>
         </div>
         <ModalConfirm id="ModalConfirmSaveUser" :msg="'Save changes?' " 
-          :btnText="'Yes'" @DelProduct="saveUserData">
+          :btnText="'Yes'" @delProduct="saveUserData">
         </ModalConfirm>
     </div>
   </template>
