@@ -55,6 +55,7 @@
                   class="form-control login-input" placeholder="Email"></li>
               <li class="p-2"><input v-model="userCred.pass" type="password" 
                 class="form-control login-input" placeholder="Password"></li>
+                <!-- Component ModalConfirmSentPass was connected in App.vue -->
               <li class="p-2"><button type="button" 
                 data-bs-toggle="modal" data-bs-target="#ModalConfirmSentPass"
                     class="btn btn-light btn-sm">Forgot password</button></li>
@@ -83,19 +84,13 @@
         </div>
       </div>
     </nav>
-    <ModalSendNewPass id="ModalConfirmSentPass" 
-      class="modal fade" tabindex="-1" ria-hidden="true" @sendPass="sendPass"></ModalSendNewPass>
   </div>
 </template>
   
 <script>
-
-import ModalSendNewPass from './ModalSendNewPass.vue';
-
   export default {
     name: 'FilterBox',
     components: {
-      ModalSendNewPass
     },
     data: function() {
       return {
@@ -133,13 +128,13 @@ import ModalSendNewPass from './ModalSendNewPass.vue';
       },
     },
     created: function () {
-    if (window.sessionStorage.login) {
-      this.userCred = JSON.parse(window.sessionStorage.login);
-      this.login()
-    }
-    if (window.sessionStorage.cart) {
-      this.$store.commit('fetchCartFromSession', JSON.parse(window.sessionStorage.cart))
+      if (window.sessionStorage.login) {
+        this.userCred = JSON.parse(window.sessionStorage.login);
+        this.login()
+      }
+      if (window.sessionStorage.cart) {
+        this.$store.commit('fetchCartFromSession', JSON.parse(window.sessionStorage.cart))
+      }
     }
   }
-}
 </script>

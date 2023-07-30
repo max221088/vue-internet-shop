@@ -8,7 +8,6 @@
 </template>
 
 <script>
-
   export default {
     name: 'WarantyView',
     computed: {
@@ -20,5 +19,4 @@
       this.$store.dispatch('fetchAbout', 'Waranty-info');
     }
   }
-
 </script>

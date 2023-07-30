@@ -44,25 +44,17 @@
 </template>
 
 <script>
-
-export default {
-  name: 'ShowOrder',
-  props: ['order'],
-  data: function() {
-    return {
-      
-    }
-  },
-  computed: {
-    sumOrder () {
-      let sum = 0;
-      for (let i = 0; i < this.order.products.length; i++) {
-        sum = sum +(this.order.products[i].price.value * this.order.products[i].amount) 
-      }
-      return sum
-    },
-  },
-    
-}
-
+  export default {
+    name: 'ShowOrder',
+    props: ['order'],
+    computed: {
+      sumOrder () {
+        let sum = 0;
+        for (let i = 0; i < this.order.products.length; i++) {
+          sum = sum +(this.order.products[i].price.value * this.order.products[i].amount) 
+        }
+        return sum
+      },
+    },  
+  }
 </script>

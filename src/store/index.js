@@ -274,7 +274,9 @@ export default new Vuex.Store({
       getDataFromDB('Products')
         .then(data => {
           data.forEach(list => {
-            products.push(list.data());
+            if (list.data().status === 'active') {
+              products.push(list.data());
+            }
         });
         products.sort(function (a, b) {
           if (Number(a.order) > Number(b.order)) {
@@ -286,7 +288,6 @@ export default new Vuex.Store({
         });
         context.state.productsForSearch = products;
         context.state.productsDB = products;
-        
       })
     },
     fetchCategories(context) {
@@ -306,6 +307,4 @@ export default new Vuex.Store({
       })
     },
   },
-  modules: {
-  }
 })

@@ -8,23 +8,15 @@
 </template>
 
 <script>
-
-export default {
+  export default {
     name: 'AboutView',
-    data: function() {
-        return {
-        
-      }
-    },
     computed: {
       content () {
-      return this.$store.getters['getInfo'];
-    },
+        return this.$store.getters['getInfo'];
+      },
     },
     created: function () {
       this.$store.dispatch('fetchAbout', 'About');
     }
   }
-
-
 </script>

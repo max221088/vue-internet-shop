@@ -8,17 +8,8 @@
 </template>
 
 <script>
-
   export default {
     name: 'AboutView',
-    components: {
-    
-    },
-    data: function() {
-      return {
-      
-      }
-    },
     computed: {
       content () {
         return this.$store.getters['getInfo'];
@@ -28,6 +19,4 @@
       this.$store.dispatch('fetchAbout', 'Contacts');
     }
   }
-
-
 </script>

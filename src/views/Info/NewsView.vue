@@ -8,11 +8,10 @@
 </template>
 
 <script>
-
   export default {
     name: 'NewsView',
     computed: {
-        content () {
+      content () {
         return this.$store.getters['getInfo'];
       },
     },
@@ -20,6 +19,4 @@
       this.$store.dispatch('fetchAbout', 'News');
     }
   }
-
-
 </script>
