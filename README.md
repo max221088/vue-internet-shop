@@ -1,5 +1,9 @@
 # vue-internet-shop
 
+Enter to app
+login: testuser@mail.com
+password: 111111
+
 ## Project setup
 ```
 npm install
