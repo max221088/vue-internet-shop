@@ -49,18 +49,18 @@
             }
           }
           if (this.SortParam == 3) {
-            if (a.price.value > b.price.value) {
+            if (Number(a.price.value) > Number(b.price.value)) {
               return 1;
             }
-            if (a.price.value < b.price.value) {
+            if (Number(a.price.value) < Number(b.price.value)) {
               return -1;
             }
           }
           if (this.SortParam == 4) {
-            if (a.price.value < b.price.value) {
+            if (Number(a.price.value) < Number(b.price.value)) {
               return 1;
             }
-            if (a.price.value > b.price.value) {
+            if (Number(a.price.value) > Number(b.price.value)) {
               return -1;
             }
           }
